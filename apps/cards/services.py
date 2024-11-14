@@ -2,6 +2,7 @@ from typing import List
 
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
 from django.shortcuts import get_object_or_404
 
 from apps.cards.models import Card, Category
@@ -10,12 +11,13 @@ from apps.cards.models import Card, Category
 def card_add_category(*, user: User, card: Card, category_id: int):
     category = get_object_or_404(Category, id=category_id)
 
-    if category.created_by is not user:
+    if category.created_by != user:
         raise PermissionDenied()
 
     card.categories.add(category)
 
 
+@transaction.atomic
 def card_create(
     *,
     user: User,
@@ -33,6 +35,8 @@ def card_create(
 
     card.full_clean()
     card.save()
+
+    categories_id = categories_id or []
 
     for category_id in categories_id:
         card_add_category(user=user, card=card, category_id=category_id)
