@@ -45,6 +45,7 @@ class CardCreateApi(APIView):
         translation = serializers.CharField(max_length=64)
         example = serializers.CharField(required=False, max_length=120)
         categories_id = serializers.ListField(
+            required=False,
             child=serializers.IntegerField(),
         )
 
