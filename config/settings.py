@@ -40,6 +40,10 @@ LOCAL_APPS = [
     'apps.cards.apps.CardsConfig',
 ]
 
+THIRD_PARTY_APPS = [
+    'rest_framework',
+]
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -48,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     *LOCAL_APPS,
+    *THIRD_PARTY_APPS,
 ]
 
 MIDDLEWARE = [
