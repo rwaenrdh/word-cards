@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.cards.selectors import category_list
-from apps.cards.services import category_create, category_update
+from apps.cards.services import category_create, category_delete, category_update
 from apps.common.permissions import IsOwner
 
 
@@ -49,5 +49,14 @@ class CategoryUpdateApi(APIView):
         serializer.is_valid(raise_exception=True)
 
         category_update(category_id=category_id, data=serializer.validated_data)
+
+        return Response(status=status.HTTP_200_OK)
+
+
+class CategoryDeleteApi(APIView):
+    permission_classes = [IsAuthenticated, IsOwner]
+
+    def post(self, request, category_id):
+        category_delete(category_id=category_id)
 
         return Response(status=status.HTTP_200_OK)

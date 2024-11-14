@@ -1,7 +1,7 @@
 from django.urls import include, path
 
 from apps.cards.apis.cards import CardCreateApi, CardListApi, CardUpdateApi
-from apps.cards.apis.categories import CategoryCreateApi, CategoryListApi, CategoryUpdateApi
+from apps.cards.apis.categories import CategoryCreateApi, CategoryDeleteApi, CategoryListApi, CategoryUpdateApi
 
 card_patterns = [
     path('create/', CardCreateApi.as_view()),
@@ -12,6 +12,7 @@ card_patterns = [
 category_patterns = [
     path('create/', CategoryCreateApi.as_view()),
     path('<int:category_id>/update/', CategoryUpdateApi.as_view()),
+    path('<int:category_id>/delete/', CategoryDeleteApi.as_view()),
     path('', CategoryListApi.as_view()),
 ]
 

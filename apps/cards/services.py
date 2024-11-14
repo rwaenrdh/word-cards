@@ -88,3 +88,9 @@ def card_update(*, card_id: int, data) -> Card:
     card, has_updated = model_update(instance=card, fields=update_fields, data=data)
 
     return card
+
+
+def category_delete(category_id: int):
+    category = get_object_or_404(Category, id=category_id)
+
+    category.delete()
