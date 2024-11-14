@@ -19,6 +19,8 @@ from django.urls import include, path
 
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
+from debug_toolbar.toolbar import debug_toolbar_urls
+
 token_patterns = [
     path('', TokenObtainPairView.as_view()),
     path('refresh/', TokenRefreshView.as_view()),
@@ -33,4 +35,4 @@ api_patterns = [
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(api_patterns)),
-]
+] + debug_toolbar_urls()
