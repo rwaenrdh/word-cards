@@ -63,8 +63,28 @@ def category_create(*, user: User, name: str) -> Category:
 def category_update(*, category_id: int, data) -> Category:
     category = get_object_or_404(Category, id=category_id)
 
-    non_side_effect_fields = ['name']
+    update_fields = ['name']
 
-    category, has_updated = model_update(instance=category, fields=non_side_effect_fields, data=data)
+    category, has_updated = model_update(instance=category, fields=update_fields, data=data)
 
     return category
+
+
+@transaction.atomic
+def card_update(*, card_id: int, data) -> Card:
+    card = get_object_or_404(Card, id=card_id)
+
+    update_fields = ['word', 'translation', 'example', 'categories']
+
+    categories_id = data.get('categories_id')
+
+    if categories_id and (categories_id[0] == ''):
+        data['categories'] = []
+    elif categories_id and (categories_id[0] != ''):
+        data['categories'] = [
+            get_object_or_404(Category, id=category_id) for category_id in categories_id
+        ]
+
+    card, has_updated = model_update(instance=card, fields=update_fields, data=data)
+
+    return card

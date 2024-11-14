@@ -4,8 +4,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.cards.selectors import card_list
-from apps.cards.services import card_create
+from apps.cards.services import card_create, card_update
 from apps.common.pagination import LimitOffsetPagination, get_paginated_response
+from apps.common.permissions import IsOwner
 from apps.common.utils import inline_serializer
 
 
@@ -56,3 +57,21 @@ class CardCreateApi(APIView):
         card_create(user=request.user, **serializer.validated_data)
 
         return Response(status=status.HTTP_201_CREATED)
+
+
+class CardUpdateApi(APIView):
+    permission_classes = [IsAuthenticated, IsOwner]
+
+    class InputSerializer(serializers.Serializer):
+        word = serializers.CharField(required=False)
+        translation = serializers.CharField(required=False)
+        example = serializers.CharField(required=False)
+        categories_id = serializers.ListField(required=False)
+
+    def post(self, request, card_id):
+        serializer = self.InputSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        card_update(card_id=card_id, data=serializer.validated_data)
+
+        return Response(status=status.HTTP_200_OK)
