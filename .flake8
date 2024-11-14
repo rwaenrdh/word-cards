@@ -1,4 +1,5 @@
 [flake8]
+ignore = I100
 exclude = migrations,.git,__pycache__,manage.py
 max-line-length = 120
 max-complexity = 8

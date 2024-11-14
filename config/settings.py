@@ -37,6 +37,7 @@ ALLOWED_HOSTS = []
 
 LOCAL_APPS = [
     'apps.common.apps.CommonConfig',
+    'apps.cards.apps.CardsConfig',
 ]
 
 INSTALLED_APPS = [
