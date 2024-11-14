@@ -1,7 +1,7 @@
 from django.urls import include, path
 
 from apps.cards.apis.cards import CardCreateApi, CardListApi
-from apps.cards.apis.categories import CategoryListApi
+from apps.cards.apis.categories import CategoryCreateApi, CategoryListApi
 
 card_patterns = [
     path('create/', CardCreateApi.as_view()),
@@ -9,11 +9,12 @@ card_patterns = [
 ]
 
 category_patterns = [
+    path('create/', CategoryCreateApi.as_view()),
     path('', CategoryListApi.as_view()),
 ]
 
 
 urlpatterns = [
     path('cards/', include(card_patterns)),
-    path('category/', include(category_patterns)),
+    path('categories/', include(category_patterns)),
 ]

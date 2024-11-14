@@ -1,9 +1,11 @@
 from typing import List
 
 from django.contrib.auth.models import User
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
 from django.shortcuts import get_object_or_404
+
+from rest_framework import exceptions
 
 from apps.cards.models import Card, Category
 
@@ -42,3 +44,16 @@ def card_create(
         card_add_category(user=user, card=card, category_id=category_id)
 
     return card
+
+
+def category_create(*, user: User, name: str) -> Category:
+    category = Category(created_by=user, name=name)
+
+    try:
+        category.full_clean()
+    except ValidationError:
+        raise exceptions.ValidationError({'name': 'Category with such name already exists.'})
+
+    category.save()
+
+    return category
