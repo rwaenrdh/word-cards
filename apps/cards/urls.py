@@ -1,11 +1,12 @@
 from django.urls import include, path
 
-from apps.cards.apis.cards import CardCreateApi, CardListApi, CardUpdateApi
+from apps.cards.apis.cards import CardCreateApi, CardDeleteApi, CardListApi, CardUpdateApi
 from apps.cards.apis.categories import CategoryCreateApi, CategoryDeleteApi, CategoryListApi, CategoryUpdateApi
 
 card_patterns = [
     path('create/', CardCreateApi.as_view()),
     path('<int:card_id>/update/', CardUpdateApi.as_view()),
+    path('<int:card_id>/delete/', CardDeleteApi.as_view()),
     path('', CardListApi.as_view()),
 ]
 

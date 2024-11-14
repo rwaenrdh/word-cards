@@ -94,3 +94,9 @@ def category_delete(category_id: int):
     category = get_object_or_404(Category, id=category_id)
 
     category.delete()
+
+
+def card_delete(card_id: int):
+    card = get_object_or_404(Card, id=card_id)
+
+    card.delete()
