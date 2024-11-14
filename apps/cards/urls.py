@@ -1,9 +1,10 @@
 from django.urls import include, path
 
-from apps.cards.apis.cards import CardListApi
+from apps.cards.apis.cards import CardCreateApi, CardListApi
 from apps.cards.apis.categories import CategoryListApi
 
 card_patterns = [
+    path('create/', CardCreateApi.as_view()),
     path('', CardListApi.as_view()),
 ]
 
