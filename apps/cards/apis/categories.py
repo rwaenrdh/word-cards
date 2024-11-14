@@ -4,7 +4,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.cards.selectors import category_list
-from apps.cards.services import category_create
+from apps.cards.services import category_create, category_update
+from apps.common.permissions import IsOwner
 
 
 class CategoryListApi(APIView):
@@ -35,3 +36,18 @@ class CategoryCreateApi(APIView):
         category_create(user=request.user, **serializer.validated_data)
 
         return Response(status=status.HTTP_201_CREATED)
+
+
+class CategoryUpdateApi(APIView):
+    permission_classes = [IsAuthenticated, IsOwner]
+
+    class InputSerializer(serializers.Serializer):
+        name = serializers.CharField(required=False)
+
+    def post(self, request, category_id):
+        serializer = self.InputSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        category_update(category_id=category_id, data=serializer.validated_data)
+
+        return Response(status=status.HTTP_200_OK)

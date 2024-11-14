@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import exceptions
 
 from apps.cards.models import Card, Category
+from apps.common.utils import model_update
 
 
 def card_add_category(*, user: User, card: Card, category_id: int):
@@ -55,5 +56,15 @@ def category_create(*, user: User, name: str) -> Category:
         raise exceptions.ValidationError({'name': 'Category with such name already exists.'})
 
     category.save()
+
+    return category
+
+
+def category_update(*, category_id: int, data) -> Category:
+    category = get_object_or_404(Category, id=category_id)
+
+    non_side_effect_fields = ['name']
+
+    category, has_updated = model_update(instance=category, fields=non_side_effect_fields, data=data)
 
     return category
