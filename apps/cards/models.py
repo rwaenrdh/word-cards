@@ -9,6 +9,7 @@ class Category(BaseModel):
     class Meta:
         ordering = ['name']
         unique_together = ['name', 'created_by']
+        verbose_name_plural = 'categories'
 
     def __str__(self):
         return self.name
