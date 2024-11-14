@@ -17,6 +17,7 @@ class CardListApi(APIView):
         default_limit = 25
 
     class FilterSerializer(serializers.Serializer):
+        query = serializers.CharField(required=False)
         categories_id = serializers.ListField(required=False, child=serializers.IntegerField())
 
     class OutputSerializer(serializers.Serializer):
