@@ -1,6 +1,7 @@
 from typing import Any, Dict, List, Tuple
 
 from django.db import models
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 
 from rest_framework import serializers
@@ -67,3 +68,9 @@ def model_update(
         has_updated = True
 
     return instance, has_updated
+
+
+def delete_object(model, **kwargs):
+    obj = get_object_or_404(model, **kwargs)
+
+    obj.delete()

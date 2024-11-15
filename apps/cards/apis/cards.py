@@ -3,11 +3,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.cards.models import Card
 from apps.cards.selectors import card_list
-from apps.cards.services import card_create, card_delete, card_update
+from apps.cards.services import card_create, card_update
 from apps.common.pagination import LimitOffsetPagination, get_paginated_response
 from apps.common.permissions import IsOwner
-from apps.common.utils import inline_serializer
+from apps.common.utils import delete_object, inline_serializer
 
 
 class CardListApi(APIView):
@@ -88,6 +89,6 @@ class CardDeleteApi(APIView):
     permission_classes = [IsAuthenticated, IsOwner]
 
     def post(self, request, card_id):
-        card_delete(card_id=card_id)
+        delete_object(Card, id=card_id)
 
         return Response(status=status.HTTP_200_OK)
