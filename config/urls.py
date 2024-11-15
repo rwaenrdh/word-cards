@@ -29,6 +29,7 @@ token_patterns = [
 
 api_patterns = [
     path('token/', include(token_patterns)),
+    path('users/', include('apps.users.urls')),
     path('', include('apps.cards.urls')),
 ]
 
