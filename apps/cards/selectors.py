@@ -9,7 +9,7 @@ from apps.cards.models import Card, Category
 def card_list(*, user: User, filters=None) -> Iterable[Card]:
     filters = filters or {}
 
-    qs = Card.objects.filter(created_by=user)
+    qs = Card.objects.filter(created_by=user).prefetch_related('categories')
 
     return CardFilter(filters, qs).qs
 

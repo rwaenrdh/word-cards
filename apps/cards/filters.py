@@ -14,7 +14,9 @@ class CardFilter(django_filters.FilterSet):
         fields = ['categories']
 
     def card_search(self, queryset, name, value):
-        vector = SearchVector('word', 'translation', 'example')
+        vector = SearchVector('word', 'translation', weight='A') + SearchVector(
+            'example', weight='B',
+        )
         query = SearchQuery(value)
 
         queryset = queryset.annotate(rank=SearchRank(vector, query)).filter(rank__gte=0.001).order_by('-rank')
